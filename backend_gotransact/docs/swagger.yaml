@@ -1,0 +1,232 @@
+basePath: /api
+definitions:
+  astructutils.LoginInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  astructutils.SignupUser:
+    properties:
+      companyname:
+        type: string
+      email:
+        type: string
+      firstname:
+        type: string
+      lastname:
+        type: string
+      password:
+        type: string
+    required:
+    - companyname
+    - email
+    - firstname
+    - lastname
+    - password
+    type: object
+  responses.UserResponse:
+    properties:
+      data:
+        additionalProperties: true
+        type: object
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  structutils.PaymentRequest:
+    properties:
+      amount:
+        type: string
+      cardNumber:
+        type: string
+      cvv:
+        type: string
+      description:
+        type: string
+      expiryDate:
+        type: string
+    required:
+    - amount
+    - cardNumber
+    - cvv
+    - expiryDate
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: sangadevshatwar143@gmail.com
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server for a transaction system.
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  termsOfService: http://swagger.io/terms/
+  title: Go Transaction API
+  version: "1.0"
+paths:
+  /Logout:
+    post:
+      consumes:
+      - application/json
+      description: Logs out a user by invalidating the provided token
+      parameters:
+      - description: Authorization header with bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Logged out successfully
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Logout a user
+      tags:
+      - Authentication
+  /confirm_payment:
+    get:
+      consumes:
+      - application/json
+      description: Confirm a payment transaction based on transaction ID and status
+      parameters:
+      - description: Transaction ID
+        in: query
+        name: transactionid
+        required: true
+        type: string
+      - description: Status of the payment confirmation (true/false)
+        in: query
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Confirm a payment transaction
+      tags:
+      - Payment
+  /protected/postpayment:
+    post:
+      consumes:
+      - application/json
+      description: Posts a payment request with user authentication
+      parameters:
+      - description: Authorization header with bearer token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Payment details
+        in: body
+        name: payment
+        required: true
+        schema:
+          $ref: '#/definitions/structutils.PaymentRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Payment request accepted
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Invalid input or validation error
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Post a payment request
+      tags:
+      - Transaction
+  /signin:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a user using email and password
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/astructutils.LoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Logged in successfully
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Invalid Input
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Login to the system
+      tags:
+      - Authentication
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user with email and company details
+      parameters:
+      - description: User Data
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/astructutils.SignupUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User Created Successfully
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "400":
+          description: Invalid Input
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/responses.UserResponse'
+      summary: Signup a new user
+      tags:
+      - Authentication
+swagger: "2.0"

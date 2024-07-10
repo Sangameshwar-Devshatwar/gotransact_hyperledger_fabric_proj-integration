@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header, .footer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .content p {
+            margin: 0 0 10px;
+        }
+        .content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content ul li {
+            margin: 0 0 5px;
+        }
+        .content a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        .content a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Payment Confirmation</h2>
+        </div>
+        <div class="content">
+            <p>Dear {{.Username}},</p>
+            <p>We have received a request to initiate a payment from your account. To ensure the security of your account, we need to confirm that you authorized this payment.</p>
+            <p><strong>Payment Details:</strong></p>
+            <ul>
+                <li>Transaction ID: {{.TransactionID}}</li>
+                <li>Amount: {{.Amount}}</li>
+                <li>Date and Time: {{.DateTime}}</li>
+            </ul>
+            <p>If you initiated this payment, please click the link below to confirm and complete the transaction:</p>
+            <p><a href="{{.ConfirmationLink}}">Confirm Payment</a></p>
+            <p>Important: If you did not authorize this payment, please click the link below to contact our administrator immediately to secure your account and prevent any unauthorized transactions:</p>
+            <p><a href="{{.FailPaymentLink}}">Cancel Payment</a></p>
+            <p>Administrator Contact Information:</p>
+            <ul>
+                <li>Email: {{.AdminEmail}}</li>
+            </ul>
+            <p>We take your account security very seriously and appreciate your prompt attention to this matter.</p>
+            <p>Thank you for your cooperation.</p>
+        </div>
+        <div class="footer">
+            <p>Best regards,</p>
+            <p>{{.CompanyName}}</p>
+            <p>{{.CompanyContact}}</p>
+            <p><a href="{{.CompanyWebsite}}">{{.CompanyWebsite}}</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+##this is ignoring env file
+*.env
+## this is ignoring log files
+*.log
+## this is ignoring out file
+*.out
+##this is ignoring workspace files
+*go.work
+*go.sum.work
